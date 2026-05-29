@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Vitalis AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="notification-container"></div>
+
+<!-- SLEEP MODAL -->
+<div class="modal-overlay" id="sleep-modal">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="closeModal('sleep-modal')"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-title">Log Sleep</div>
+    <div class="modal-sub">Record last night's sleep for AI analysis.</div>
+    <div class="modal-field"><label>Bedtime</label><input type="time" id="sleep-bedtime" value="22:30" /></div>
+    <div class="modal-field"><label>Wake Time</label><input type="time" id="sleep-waketime" value="06:30" /></div>
+    <div class="modal-field">
+      <label>Sleep Quality</label>
+      <select id="sleep-quality">
+        <option value="5">Excellent</option>
+        <option value="4" selected>Good</option>
+        <option value="3">Fair</option>
+        <option value="2">Poor</option>
+        <option value="1">Very Poor</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveSleep()" style="flex:1;justify-content:center;">Save Sleep Log</button>
+      <button class="btn btn-outline" onclick="closeModal('sleep-modal')" style="flex:1;justify-content:center;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<button id="sidebar-toggle" style="display:none;position:fixed;top:20px;left:20px;z-index:200;width:40px;height:40px;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);cursor:pointer;font-size:14px;align-items:center;justify-content:center;">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<div class="dashboard-layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-logo">VITALIS <span>AI</span></a>
+    <span class="sidebar-section-label">Main</span>
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li><a href="#" data-section="dashboard" class="active"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="#" data-section="chat"><i class="fa-solid fa-brain"></i> AI Chat</a></li>
+      <li><a href="#" data-section="routines"><i class="fa-solid fa-list-check"></i> Routines</a></li>
+      <li><a href="#" data-section="mood"><i class="fa-solid fa-face-smile"></i> Mood Tracker</a></li>
+      <li><a href="#" data-section="analytics"><i class="fa-solid fa-chart-bar"></i> Analytics</a></li>
+    </ul>
+    <span class="sidebar-section-label">Health</span>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-section="food"><i class="fa-solid fa-leaf"></i> Food Suggestions</a></li>
+      <li><a href="#" data-section="sleep"><i class="fa-solid fa-moon"></i> Sleep</a></li>
+      <li><a href="#" data-section="hydration"><i class="fa-solid fa-droplet"></i> Hydration</a></li>
+    </ul>
+    <span class="sidebar-section-label">Account</span>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-section="profile"><i class="fa-solid fa-user"></i> Profile</a></li>
+      <li><a href="#" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+    <div class="sidebar-bottom">
+      <ul class="sidebar-nav"><li><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a></li></ul>
+    </div>
+  </aside>
+
+  <main class="dashboard-main" id="dashboard-main">
+
+    <!-- DASHBOARD -->
+    <div id="section-dashboard">
+      <div class="insights-ticker">
+        <span class="insights-ticker-label">AI Insight</span>
+        <div class="insights-ticker-text"><span id="ticker-text">Loading insights...</span></div>
+      </div>
+      <div class="checkin-banner">
+        <div>
+          <div class="checkin-banner-title">Daily Check-in</div>
+          <div class="checkin-banner-text">Log today's sleep and mood to get personalized AI insights.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" style="font-size:12px;padding:10px 18px;" onclick="openModal('sleep-modal')"><i class="fa-solid fa-moon"></i> Log Sleep</button>
+          <button class="btn btn-primary" style="font-size:12px;padding:10px 18px;" onclick="showSection('mood')"><i class="fa-solid fa-face-smile"></i> Log Mood</button>
+        </div>
+      </div>
+      <div class="dash-header">
+        <div class="dash-greeting" id="dash-greeting">Good morning</div>
+        <h1 class="dash-title" id="dash-title">Welcome back</h1>
+        <div class="dash-date" id="dash-date"></div>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-card" id="card-wellness"><div class="dash-card-label">Wellness Score</div><div class="dash-card-value" id="stat-wellness">—<span class="dash-card-unit">/ 100</span></div><div class="dash-card-trend" id="stat-wellness-trend">Calculating...</div></div>
+        <div class="dash-card" id="card-sleep"><div class="dash-card-label">Sleep Last Night</div><div class="dash-card-value" id="stat-sleep">—<span class="dash-card-unit">hrs</span></div><div class="dash-card-trend" id="stat-sleep-trend">Log sleep to see insights</div></div>
+        <div class="dash-card" id="card-hydration"><div class="dash-card-label">Hydration</div><div class="dash-card-value" id="stat-hydration">0<span class="dash-card-unit">/ 8</span></div><div class="dash-card-trend" id="stat-hydration-trend">Tap drops to log</div></div>
+        <div class="dash-card" id="card-streak"><div class="dash-card-label">Habit Streak</div><div class="dash-card-value" id="stat-streak">—<span class="dash-card-unit">days</span></div><div class="dash-card-trend" id="stat-streak-trend">Keep it going</div></div>
+      </div>
+      <div class="dash-row">
+        <div class="dash-card"><div class="dash-card-label">AI Recommendations</div><div class="ai-recs" id="ai-recs-list"></div></div>
+        <div class="dash-card">
+          <div class="dash-card-label">Daily Wellness Score</div>
+          <div class="progress-ring-wrap">
+            <svg class="progress-ring" width="140" height="140" viewBox="0 0 140 140">
+              <circle class="progress-ring-bg" cx="70" cy="70" r="58"/>
+              <circle class="progress-ring-fill" cx="70" cy="70" r="58" stroke-dasharray="364.4" id="wellness-ring-fill" stroke-dashoffset="364.4"/>
+              <text class="ring-label" x="70" y="65" id="ring-score-val">—</text>
+              <text class="ring-sublabel" x="70" y="84" id="ring-score-label">Loading</text>
+            </svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+            <div class="mini-bar-row"><span class="mini-bar-label">Sleep</span><div class="mini-bar-track"><div class="mini-bar-fill" id="bar-sleep" style="width:0%"></div></div><span style="font-size:11px;color:var(--text-muted);width:28px;text-align:right;" id="bar-sleep-val">—</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label">Hydration</span><div class="mini-bar-track"><div class="mini-bar-fill" id="bar-hydration" style="width:0%"></div></div><span style="font-size:11px;color:var(--text-muted);width:28px;text-align:right;" id="bar-hydration-val">—</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label">Mood</span><div class="mini-bar-track"><div class="mini-bar-fill" id="bar-mood" style="width:0%"></div></div><span style="font-size:11px;color:var(--text-muted);width:28px;text-align:right;" id="bar-mood-val">—</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label">Routine</span><div class="mini-bar-track"><div class="mini-bar-fill" id="bar-routine" style="width:0%"></div></div><span style="font-size:11px;color:var(--text-muted);width:28px;text-align:right;" id="bar-routine-val">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-row-3">
+        <div class="dash-card"><div class="dash-card-label">Hydration Tracker</div><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Tap a drop to log a glass</div><div class="hydration-drops" id="hydration-drops"></div><div style="font-size:12px;color:var(--text-secondary);margin-top:12px;" id="hydration-text">0 of 8 glasses</div></div>
+        <div class="dash-card"><div class="dash-card-label">Mood Check-in</div><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">How are you feeling?</div><div class="mood-grid" id="mood-grid"></div><div style="font-size:11px;color:var(--text-muted);margin-top:10px;" id="mood-saved-text"></div></div>
+        <div class="dash-card"><div class="dash-card-label">Habit Streaks</div><div class="habit-list" id="habit-list"></div></div>
+      </div>
+      <div class="dash-card"><div class="dash-card-label">Today's Routines</div><div id="routines-today" style="margin-top:12px;"></div></div>
+    </div>
+
+    <!-- AI CHAT -->
+    <div id="section-chat" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Intelligent Conversation</div><h1 class="dash-title">AI Wellness Chat</h1></div>
+      <div class="dash-card" style="height:calc(100vh - 220px);display:flex;flex-direction:column;padding:0;overflow:hidden;">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+          <div class="ai-avatar" style="width:32px;height:32px;font-size:12px;"><i class="fa-solid fa-brain"></i></div>
+          <div><div class="ai-name">Vitalis AI</div><div class="ai-status" id="chat-status">Online · Analyzing your wellness data</div></div>
+          <button onclick="clearChatHistory()" style="margin-left:auto;background:none;border:1px solid var(--border);color:var(--text-muted);padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;">Clear Chat</button>
+        </div>
+        <div class="chat-suggestions" id="chat-suggestions"></div>
+        <div class="chat-messages-area" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" id="chat-input" placeholder="Ask about your wellness, mood, sleep, or how you're feeling..." rows="1" onkeydown="handleChatKey(event)" oninput="autoResizeTextarea(this)"></textarea>
+          <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane" style="font-size:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTINES -->
+    <div id="section-routines" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Daily Structure</div><h1 class="dash-title">Routines</h1></div>
+      <div class="dash-row">
+        <div class="dash-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div class="dash-card-label" style="margin:0;">Today's Schedule</div>
+            <span id="routines-progress-text" style="font-size:12px;color:var(--text-secondary);"></span>
+          </div>
+          <div id="routines-full-list"></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">AI Routine Predictions</div>
+          <div id="routine-predictions" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;"></div>
+          <div class="dash-card-label" style="margin-top:24px;">Weekly Completion</div>
+          <div class="chart-container" style="height:140px;"><canvas id="routine-chart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOOD TRACKER -->
+    <div id="section-mood" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Emotional Intelligence</div><h1 class="dash-title">Mood Tracker</h1></div>
+      <div class="dash-row">
+        <div class="dash-card">
+          <div class="dash-card-label">Log Today's Mood</div>
+          <div class="mood-grid" id="mood-grid-full" style="margin-top:16px;"></div>
+          <div style="margin-top:20px;">
+            <div class="dash-card-label">Add a note</div>
+            <textarea id="mood-note" placeholder="How are you feeling? What's on your mind?" style="width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text-primary);font-size:13px;font-family:var(--font-main);resize:none;outline:none;height:80px;transition:var(--transition);" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+            <button class="btn btn-primary" style="margin-top:12px;font-size:13px;" onclick="saveMoodEntry()">Save Mood Entry</button>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">Mood History (7 Days)</div>
+          <div class="mood-history-row" id="mood-history-row"></div>
+          <div class="dash-card-label" style="margin-top:24px;">Mood Trend</div>
+          <div class="chart-container" style="height:140px;"><canvas id="mood-chart"></canvas></div>
+          <div id="mood-ai-insight" style="margin-top:16px;padding:14px;background:var(--glass);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text-secondary);line-height:1.6;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div id="section-analytics" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Data Intelligence</div><h1 class="dash-title">Analytics</h1></div>
+      <div class="analytics-grid">
+        <div class="dash-card"><div class="chart-title">Sleep Analytics (7 Days)</div><div class="chart-sub">Hours of sleep per night</div><div class="chart-container"><canvas id="sleep-analytics-chart"></canvas></div></div>
+        <div class="dash-card"><div class="chart-title">Hydration Trend (7 Days)</div><div class="chart-sub">Glasses consumed per day</div><div class="chart-container"><canvas id="hydration-analytics-chart"></canvas></div></div>
+        <div class="dash-card"><div class="chart-title">Mood Trend (7 Days)</div><div class="chart-sub">Emotional wellness score</div><div class="chart-container"><canvas id="mood-analytics-chart"></canvas></div></div>
+        <div class="dash-card"><div class="chart-title">Wellness Score History</div><div class="chart-sub">Overall score over time</div><div class="chart-container"><canvas id="wellness-analytics-chart"></canvas></div></div>
+        <div class="dash-card full"><div class="chart-title">Weekly Overview</div><div class="chart-sub">All metrics combined</div><div class="chart-container" style="height:220px;"><canvas id="overview-chart"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- FOOD -->
+    <div id="section-food" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Nutritional Intelligence</div><h1 class="dash-title">Food Suggestions</h1></div>
+      <div class="dash-card" style="margin-bottom:20px;"><div class="dash-card-label">AI Food Analysis</div><div id="food-ai-context" style="font-size:13px;color:var(--text-secondary);line-height:1.7;margin-top:8px;"></div></div>
+      <div class="dash-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div class="dash-card-label" style="margin:0;">Recommended for You Today</div><span style="font-size:11px;color:var(--text-muted);">Based on your mood &amp; wellness data</span></div><div class="food-grid" id="food-grid"></div></div>
+    </div>
+
+    <!-- SLEEP -->
+    <div id="section-sleep" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Recovery Intelligence</div><h1 class="dash-title">Sleep Tracker</h1></div>
+      <div class="dash-row">
+        <div class="dash-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div class="dash-card-label" style="margin:0;">Sleep Log</div>
+            <button class="btn btn-ghost" style="font-size:12px;padding:8px 16px;" onclick="openModal('sleep-modal')"><i class="fa-solid fa-plus"></i> Log Sleep</button>
+          </div>
+          <div id="sleep-log-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+          <div class="dash-card-label" style="margin-top:24px;">Sleep Pattern (7 Days)</div>
+          <div class="chart-container"><canvas id="sleep-chart"></canvas></div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">Sleep Insights</div>
+          <div id="sleep-insights" style="display:flex;flex-direction:column;gap:12px;margin-top:8px;"></div>
+          <div class="dash-card-label" style="margin-top:24px;">Breathing Exercise</div>
+          <div style="text-align:center;">
+            <div class="breathing-circle" id="breathing-circle" onclick="startBreathing()">Tap to start</div>
+            <div style="font-size:12px;color:var(--text-muted);" id="breathing-label">4-7-8 Breathing Technique</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HYDRATION -->
+    <div id="section-hydration" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Hydration Intelligence</div><h1 class="dash-title">Hydration Tracker</h1></div>
+      <div class="dash-row">
+        <div class="dash-card" style="text-align:center;">
+          <div class="dash-card-label">Today's Intake</div>
+          <div class="hydration-glass-visual" id="hydration-glass"><div class="hydration-glass-fill" id="hydration-glass-fill" style="height:0%"></div></div>
+          <div style="font-size:2.5rem;font-weight:200;letter-spacing:-0.03em;" id="hydration-big-num">0</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">of <span id="hydration-goal-display">8</span> glasses</div>
+          <div class="hydration-drops" id="hydration-drops-full" style="justify-content:center;"></div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;">
+            <button class="btn btn-primary" style="font-size:13px;" onclick="addGlass()"><i class="fa-solid fa-plus"></i> Add Glass</button>
+            <button class="btn btn-outline" style="font-size:13px;" onclick="removeGlass()"><i class="fa-solid fa-minus"></i> Remove</button>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">Hydration Insights</div>
+          <div id="hydration-insights" style="display:flex;flex-direction:column;gap:10px;margin-top:8px;"></div>
+          <div class="dash-card-label" style="margin-top:24px;">7-Day Trend</div>
+          <div class="chart-container"><canvas id="hydration-chart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="section-profile" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Your Account</div><h1 class="dash-title">Profile</h1></div>
+      <div class="dash-row">
+        <div class="dash-card">
+          <div class="dash-card-label">Personal Information</div>
+          <div style="display:flex;align-items:center;gap:20px;margin:20px 0 28px;">
+            <div class="profile-avatar-ring"><div style="width:72px;height:72px;border-radius:50%;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:300;" id="profile-avatar-letter">A</div></div>
+            <div><div style="font-size:18px;font-weight:300;" id="profile-display-name">Alex Johnson</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;" id="profile-display-email">alex@example.com</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Member since Jan 2026</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="form-group"><input type="text" id="profile-fname" placeholder="First name" /><label>First name</label></div>
+            <div class="form-group"><input type="text" id="profile-lname" placeholder="Last name" /><label>Last name</label></div>
+            <div class="form-group"><input type="email" id="profile-email" placeholder="Email" /><label>Email</label></div>
+            <div class="form-group"><input type="number" id="profile-water-goal" placeholder="Daily water goal (glasses)" min="4" max="16" /><label>Daily water goal</label></div>
+            <div class="form-group"><input type="number" id="profile-sleep-goal" placeholder="Sleep goal (hours)" min="5" max="12" step="0.5" /><label>Sleep goal (hours)</label></div>
+            <button class="btn btn-primary" style="width:fit-content;" onclick="saveProfile()">Save Changes</button>
+          </div>
+        </div>
+        <div class="dash-card"><div class="dash-card-label">Wellness Statistics</div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;" id="profile-stats"></div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="section-settings" style="display:none;">
+      <div class="dash-header"><div class="dash-greeting">Preferences</div><h1 class="dash-title">Settings</h1></div>
+      <div class="dash-card" style="max-width:600px;">
+        <div class="dash-card-label">Notifications</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;" id="settings-toggles"></div>
+        <div class="dash-card-label" style="margin-top:28px;">Data Management</div>
+        <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" style="font-size:13px;" onclick="exportData()"><i class="fa-solid fa-download"></i> Export Data</button>
+          <button class="btn btn-ghost" style="font-size:13px;" onclick="resetDailyData()"><i class="fa-solid fa-rotate"></i> Reset Today</button>
+          <button class="btn btn-outline" style="border-color:rgba(255,80,80,0.3);color:rgba(255,120,120,0.8);font-size:13px;" onclick="confirmClearAll()"><i class="fa-solid fa-trash"></i> Clear All Data</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="script.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

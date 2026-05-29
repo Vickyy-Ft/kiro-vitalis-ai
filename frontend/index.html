@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vitalis AI — Your AI Wellness Operating System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-logo">VITALIS <span>AI</span></div>
+  <div class="loading-bar-track"><div class="loading-bar-fill" id="loading-bar"></div></div>
+  <div class="loading-text">Initializing wellness system</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">VITALIS <span>AI</span></a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#ai-chat">AI Wellness</a></li>
+        <li><a href="#dashboard-preview">Dashboard</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="login.html" class="btn btn-ghost" style="padding:10px 20px;font-size:13px;">Login</a>
+        <a href="signup.html" class="btn btn-primary" style="padding:10px 20px;font-size:13px;">Get Started</a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <canvas id="particles-canvas"></canvas>
+    <svg class="heartbeat-line" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <polyline id="heartbeat-poly" points="" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        AI-Powered Wellness Intelligence
+      </div>
+      <h1 class="hero-title">
+        Your AI<br><em>Wellness</em><br>Companion
+      </h1>
+      <p class="hero-sub">
+        Vitalis AI learns your patterns, predicts your needs, and delivers intelligent self-care guidance — personalized to you, in real time.
+      </p>
+      <div class="hero-actions">
+        <a href="signup.html" class="btn btn-primary">
+          Start Your Journey <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#dashboard-preview" class="btn btn-outline">
+          Explore Dashboard
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num" data-count="98">0</div>
+          <div class="hero-stat-label">Wellness Score Avg</div>
+        </div>
+        <div>
+          <div class="hero-stat-num" data-count="50000">0</div>
+          <div class="hero-stat-label">Active Users</div>
+        </div>
+        <div>
+          <div class="hero-stat-num" data-count="12">0</div>
+          <div class="hero-stat-label">AI Models</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <span class="section-label">Capabilities</span>
+      <h2 class="section-title">Everything your wellness<br><span>needs to thrive</span></h2>
+      <p class="section-sub">Nine intelligent systems working in harmony to understand, predict, and elevate your daily wellbeing.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+        <div class="feature-title">AI Wellness Chat</div>
+        <div class="feature-desc">Conversational AI that understands your health context and delivers personalized guidance in real time.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
+        <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="feature-title">Smart Routine Prediction</div>
+        <div class="feature-desc">Learns your lifestyle patterns and proactively suggests optimized daily routines before you ask.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
+        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="feature-title">Mood Analytics</div>
+        <div class="feature-desc">Tracks emotional patterns over time and correlates them with sleep, nutrition, and activity data.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon"><i class="fa-solid fa-moon"></i></div>
+        <div class="feature-title">Sleep Tracking</div>
+        <div class="feature-desc">Deep sleep analysis with AI-powered recommendations to optimize your rest and recovery cycles.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
+        <div class="feature-icon"><i class="fa-solid fa-droplet"></i></div>
+        <div class="feature-title">Hydration Monitoring</div>
+        <div class="feature-desc">Intelligent hydration reminders calibrated to your activity level, climate, and body metrics.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
+        <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+        <div class="feature-title">Smart Food Recommendations</div>
+        <div class="feature-desc">Nutritional intelligence that adapts to your mood, energy levels, and wellness goals daily.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="feature-title">Daily Wellness Score</div>
+        <div class="feature-desc">A unified score synthesizing all your health signals into one clear, actionable daily metric.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="60">
+        <div class="feature-icon"><i class="fa-solid fa-fire"></i></div>
+        <div class="feature-title">Habit Memory System</div>
+        <div class="feature-desc">Remembers your habits, streaks, and patterns to keep you consistent and motivated long-term.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="120">
+        <div class="feature-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="feature-title">Self-Care Intelligence</div>
+        <div class="feature-desc">Behavioral analysis that identifies stress signals and recommends targeted self-care interventions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <span class="section-label">Process</span>
+      <h2 class="section-title">How <span>Vitalis AI</span> works</h2>
+      <p class="section-sub">Three intelligent steps that transform raw data into meaningful wellness transformation.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step" data-aos="fade-up" data-aos-delay="0">
+        <div class="step-num">01</div>
+        <div class="step-title">Track Your Lifestyle</div>
+        <div class="step-desc">Log sleep, mood, hydration, food, and activity. Vitalis passively learns from your daily patterns with minimal friction.</div>
+      </div>
+      <div class="how-step" data-aos="fade-up" data-aos-delay="100">
+        <div class="step-num">02</div>
+        <div class="step-title">AI Learns Your Patterns</div>
+        <div class="step-desc">Our multi-model AI engine analyzes correlations across all your health signals to build a precise personal wellness profile.</div>
+      </div>
+      <div class="how-step" data-aos="fade-up" data-aos-delay="200">
+        <div class="step-num">03</div>
+        <div class="step-title">Improve Your Wellness</div>
+        <div class="step-desc">Receive predictive recommendations, smart reminders, and AI-guided routines that continuously evolve with you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI CHAT DEMO -->
+<section class="section" id="ai-chat">
+  <div class="container">
+    <div class="chat-demo-wrapper">
+      <div data-aos="fade-right">
+        <span class="section-label">AI Intelligence</span>
+        <h2 class="section-title">Talk to your<br><span>wellness AI</span></h2>
+        <p class="section-sub" style="margin-bottom:24px;">
+          Vitalis AI understands context. It knows your sleep history, hydration patterns, and mood trends — so every response is deeply personal.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;gap:12px;align-items:center;font-size:13px;color:var(--text-secondary);">
+            <i class="fa-solid fa-check" style="color:var(--text-primary);font-size:10px;"></i>
+            Context-aware responses based on your health data
+          </li>
+          <li style="display:flex;gap:12px;align-items:center;font-size:13px;color:var(--text-secondary);">
+            <i class="fa-solid fa-check" style="color:var(--text-primary);font-size:10px;"></i>
+            Predictive wellness insights before symptoms arise
+          </li>
+          <li style="display:flex;gap:12px;align-items:center;font-size:13px;color:var(--text-secondary);">
+            <i class="fa-solid fa-check" style="color:var(--text-primary);font-size:10px;"></i>
+            Emotional intelligence and stress pattern recognition
+          </li>
+        </ul>
+      </div>
+      <div data-aos="fade-left">
+        <div class="chat-window">
+          <div class="chat-header">
+            <div class="ai-avatar"><i class="fa-solid fa-brain" style="font-size:12px;"></i></div>
+            <div>
+              <div class="ai-name">Vitalis AI</div>
+              <div class="ai-status">Online · Analyzing your patterns</div>
+            </div>
+          </div>
+          <div class="chat-messages" id="demo-chat">
+            <div class="msg msg-user">
+              <div class="msg-bubble">I feel stressed and tired today.</div>
+            </div>
+          </div>
+          <div class="typing-indicator" id="typing-indicator" style="display:none;">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="section" id="dashboard-preview" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <span class="section-label">Interface</span>
+      <h2 class="section-title">Your wellness<br><span>command center</span></h2>
+      <p class="section-sub">A cinematic dashboard that puts every health signal at your fingertips — beautifully organized and intelligently prioritized.</p>
+    </div>
+    <div class="dashboard-preview" data-aos="fade-up" data-aos-delay="100">
+      <div class="dp-header">
+        <div class="dp-dot"></div><div class="dp-dot"></div><div class="dp-dot"></div>
+        <span style="font-size:11px;color:var(--text-muted);margin-left:12px;letter-spacing:2px;">VITALIS AI — DASHBOARD</span>
+      </div>
+      <div class="dp-body">
+        <div class="dp-sidebar">
+          <div class="dp-nav-item active"><i class="fa-solid fa-house"></i> Dashboard</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-brain"></i> AI Chat</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-list-check"></i> Routines</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-face-smile"></i> Mood</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-chart-bar"></i> Analytics</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-leaf"></i> Food</div>
+          <div class="dp-nav-item"><i class="fa-solid fa-user"></i> Profile</div>
+        </div>
+        <div class="dp-main">
+          <div class="dp-card">
+            <div class="dp-card-label">Wellness Score</div>
+            <div class="wellness-ring">
+              <svg viewBox="0 0 80 80" width="80" height="80">
+                <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+                <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="6"
+                  stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="32" transform="rotate(-90 40 40)"/>
+              </svg>
+              <div class="wellness-ring-val">85</div>
+            </div>
+            <div class="dp-card-sub" style="text-align:center;">Excellent</div>
+          </div>
+          <div class="dp-card">
+            <div class="dp-card-label">Sleep Last Night</div>
+            <div class="dp-card-value">7<span class="dp-card-unit">hrs</span></div>
+            <div class="dp-card-sub">↑ 45min vs avg</div>
+          </div>
+          <div class="dp-card">
+            <div class="dp-card-label">Hydration</div>
+            <div class="dp-card-value">6<span class="dp-card-unit">/ 8 glasses</span></div>
+            <div class="dp-card-sub">75% of daily goal</div>
+          </div>
+          <div class="dp-card span-2">
+            <div class="dp-card-label">Weekly Sleep Pattern</div>
+            <div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-top:12px;">
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:3px;height:55%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.15);border-radius:3px;height:70%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:3px;height:45%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.2);border-radius:3px;height:80%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.15);border-radius:3px;height:65%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.25);border-radius:3px;height:90%;"></div>
+              <div style="flex:1;background:rgba(255,255,255,0.5);border-radius:3px;height:88%;border:1px solid rgba(255,255,255,0.3);"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;">
+              <span style="font-size:10px;color:var(--text-muted);">Mon</span>
+              <span style="font-size:10px;color:var(--text-muted);">Tue</span>
+              <span style="font-size:10px;color:var(--text-muted);">Wed</span>
+              <span style="font-size:10px;color:var(--text-muted);">Thu</span>
+              <span style="font-size:10px;color:var(--text-muted);">Fri</span>
+              <span style="font-size:10px;color:var(--text-muted);">Sat</span>
+              <span style="font-size:10px;color:var(--text-primary);">Today</span>
+            </div>
+          </div>
+          <div class="dp-card">
+            <div class="dp-card-label">Today's Mood</div>
+            <div class="dp-card-value" style="font-size:1.4rem;">Focused</div>
+            <div class="dp-card-sub">↑ Better than yesterday</div>
+          </div>
+          <div class="dp-card span-3">
+            <div class="dp-card-label">AI Recommendations</div>
+            <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+              <div style="flex:1;min-width:160px;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-secondary);">
+                <i class="fa-solid fa-droplet" style="margin-right:8px;"></i>Drink 2 more glasses of water today
+              </div>
+              <div style="flex:1;min-width:160px;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-secondary);">
+                <i class="fa-solid fa-wind" style="margin-right:8px;"></i>5-min breathing exercise recommended
+              </div>
+              <div style="flex:1;min-width:160px;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-secondary);">
+                <i class="fa-solid fa-moon" style="margin-right:8px;"></i>Sleep by 10:30 PM for optimal recovery
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-title">Trusted by those who<br><span>take wellness seriously</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="0">
+        <p class="testimonial-quote">"Vitalis AI completely changed how I approach my mornings. The sleep insights alone were worth it — I've never felt more rested."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <div class="author-name">Sarah M.</div>
+            <div class="author-role">Product Designer, NYC</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="80">
+        <p class="testimonial-quote">"The AI chat is eerily accurate. It predicted my stress spike before I even noticed it myself. The recommendations were spot on."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">J</div>
+          <div>
+            <div class="author-name">James K.</div>
+            <div class="author-role">Software Engineer, London</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="160">
+        <p class="testimonial-quote">"I've tried every wellness app. Vitalis is the first one that actually feels intelligent. It learns, adapts, and genuinely helps."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Aisha R.</div>
+            <div class="author-role">Wellness Coach, Dubai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div data-aos="fade-up">
+      <span class="section-label" style="display:block;margin-bottom:16px;">Begin Today</span>
+      <h2 class="cta-title">Transform Your Wellness<br><em style="font-style:italic;color:var(--text-secondary);">with AI</em></h2>
+      <p class="cta-sub">Join thousands who've made Vitalis AI their daily wellness operating system.</p>
+      <a href="signup.html" class="btn btn-glow" style="font-size:15px;padding:18px 40px;">
+        Start Your Journey <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="index.html" class="nav-logo" style="font-size:14px;">VITALIS <span>AI</span></a>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="footer-copy">© 2026 Vitalis AI. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

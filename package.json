@@ -1,0 +1,12 @@
+{
+  "name": "vitalis-ai-frontend",
+  "version": "1.0.0",
+  "description": "Vitalis AI — Frontend wellness platform",
+  "scripts": {
+    "start": "npx serve . -p 5500",
+    "dev": "npx live-server frontend --port=5500 --open=index.html"
+  },
+  "keywords": ["wellness", "ai", "frontend"],
+  "author": "Vitalis AI",
+  "license": "ISC"
+}
